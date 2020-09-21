@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from .models import *
 
 def new(request):
@@ -46,3 +47,21 @@ def create_comment(request, id):
         comment_content = request.POST.get('content')
         Comment.objects.create(content=comment_content, writer=current_user, post=post)
     return redirect('posts:show', post.pk)
+
+@login_required
+def post_like(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    post_like, post_like_created = post.like_set.get_or_create(user=request.user)
+
+    if not post_like_created:
+        post_like.delete()
+
+    if request.GET.get('redirect_to' == 'show'):
+        return redirect('posts:show', post_id)
+    else:
+        return redirect('posts:main')
+    
+@login_required
+def like_list(request):
+    likes = request.user.like_set.all()
+    return render(request, 'posts/like_list.html', {'likes':likes})
