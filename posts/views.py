@@ -56,7 +56,7 @@ def post_like(request, post_id):
     if not post_like_created:
         post_like.delete()
 
-    if request.GET.get('redirect_to' == 'show'):
+    if request.GET.get('redirect_to') == 'show':
         return redirect('posts:show', post_id)
     else:
         return redirect('posts:main')

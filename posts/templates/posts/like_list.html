@@ -1,7 +1,7 @@
-{% extends'base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 {% block content %}
-{% include'shared/_navbar.html' %}
+
 <div class="container">
     {% if user.is_authenticated %}
     <h1>좋아요한 글 목록</h1>
@@ -12,7 +12,7 @@
                     <div class="card-body">
                     <h5 class="card-title">{{ like.post.title }}</h5>
                     <p>조회수 :{{ like.post.view_count }}</p>
-                    <a href="{% url 'posts:show'like.post.id %}" class="btn btn-primary">상세보기</a>
+                    <a href="{% url 'posts:show' like.post.id %}" class="btn btn-primary">상세보기</a>
                 </div>
             </div>
         </div>
